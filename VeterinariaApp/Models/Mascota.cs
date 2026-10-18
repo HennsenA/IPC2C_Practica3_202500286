@@ -2,13 +2,13 @@ namespace VeterinariaApp.Models
 {
     public class Mascota
 {
-    private String nombre { get; set; }
-    private double peso { get; set; }
-    private String sexo { get; set; }
-    private int edad { get; set; }
-    private String propietario { get; set; }
+    public String nombre { get; set; }
+    public double peso { get; set; }
+    public String sexo { get; set; }
+    public int edad { get; set; }
+    public String propietario { get; set; }
     public String codigo { get; set; }
-    private String estado { get; set; }
+    public String estado { get; set; }
 
     public Mascota(String nombre, double peso, String sexo, int edad, String propietario, String estado)
     {
@@ -34,7 +34,7 @@ namespace VeterinariaApp.Models
         this.estado = estado;
     }
 
-    public void ImprimirInfo()
+    public virtual void ImprimirInfo()
     {
         String informacion = 
             $"""
