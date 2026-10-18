@@ -1,0 +1,9 @@
+#Archivos de vs
+.vs/
+bin/
+obj/
+
+#Propiedades
+properties/
+appsettings.json
+appsettings.Development.json
