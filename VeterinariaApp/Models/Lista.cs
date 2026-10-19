@@ -107,7 +107,7 @@ namespace VeterinariaApp.Models
             }
         }
 
-        public void EditarInfo(string codigo, string nombre, double peso, string sexo, int edad, string propietario)
+        public bool EditarInfo(string codigo, string nombre, double peso, string sexo, int edad, string propietario)
         {
             var nodo = Buscar(codigo);
             if (nodo != null)
@@ -117,10 +117,12 @@ namespace VeterinariaApp.Models
                 nodo.Paciente.sexo = sexo;
                 nodo.Paciente.edad = edad;
                 nodo.Paciente.propietario = propietario;
+                return true;
             }
             else
             {
                 Console.WriteLine("No se encontro el nodo para editar la informacion");
+                return false;
             }
         }
     }

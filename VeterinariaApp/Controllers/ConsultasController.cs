@@ -5,9 +5,14 @@ namespace VeterinariaApp.Controllers
 {
     public class ConsultasController : Controller
     {
+        private Lista lista;
         public IActionResult Index()
         {
             return View();
+        }
+        public ConsultasController(Lista Lista)
+        {
+            lista = Lista;
         }
 
         [HttpPost("Registro")]//Metodo para registrar un paciente
@@ -24,7 +29,6 @@ namespace VeterinariaApp.Controllers
             }
 
             // Lógica para registrar la mascota en la lista
-            Lista lista = new Lista();
             lista.Insertar(mascota);
 
             return Ok("Mascota registrada exitosamente.");
@@ -39,13 +43,12 @@ namespace VeterinariaApp.Controllers
             }
 
             // Lógica para eliminar la mascota de la lista
-            Lista lista = new Lista();
             lista.Eliminar(codigo);
 
             return Ok("Mascota eliminada exitosamente.");
         }
 
-        [HttpGet("Buscar")]//Metodo para buscar un paciente
+        [HttpGet("Buscar")]//Metodo para buscar un paciente individual
         public IActionResult Buscar(string codigo)
         {
             if (string.IsNullOrEmpty(codigo))
@@ -54,7 +57,6 @@ namespace VeterinariaApp.Controllers
             }
 
             // Lógica para buscar la mascota en la lista
-            Lista lista = new Lista();
             NodoLista nodoEncontrado = lista.Buscar(codigo);
 
             if (nodoEncontrado == null)
@@ -65,6 +67,37 @@ namespace VeterinariaApp.Controllers
             return Ok(nodoEncontrado.Paciente);
         }
 
-        
+        [HttpGet("Lista")]//Metodo para mostrar la lista de pacientes
+        public IActionResult Lista()
+        {
+            string ListaPacientes = lista.ImprimirLista();
+
+            if(ListaPacientes == null || ListaPacientes.Equals(""))
+            {
+                return NotFound("La lista esta vacia");
+            }
+
+            return Ok(ListaPacientes);
+        }
+
+        [HttpPatch("Editar")]//Actualizar informacion de un paciente
+        public IActionResult Editar(string codigo, string nombre, double peso, string sexo, int edad, string propietario)
+        {
+            bool estado = lista.EditarInfo(codigo, nombre, peso, sexo, edad, propietario);
+            if (!estado)
+            {
+                return NotFound("No se encontro el paciente");
+            }
+
+            return Ok();
+        }
+
+        [HttpPut("CambiarEstado")]//Cambiar el estado de sano a enfermo o viceversa
+        public IActionResult CambiarEstado(string codigo)
+        {
+            lista.CambiarEstado(codigo);
+
+            
+        }
     }
 }
