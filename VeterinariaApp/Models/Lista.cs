@@ -100,7 +100,33 @@ namespace VeterinariaApp.Models
 
         private string GenerarCodigo()//Generacion de codigo para mascota
         {
-            return "";
+            int numero = ContarNodos();
+
+            if(numero < 10)
+            {
+                return "M00" + numero;
+            }
+            else if(numero < 100)
+            {
+                return "M0" + numero;
+            }
+            else
+            {
+                return "M" + numero;
+            }
+        }
+        private int ContarNodos()
+        {
+            int contador = 0;
+            var actual = Inicio;
+
+            while (actual != null)
+            {
+                contador++;
+                actual = actual.Siguiente;
+            }
+
+            return contador;
         }
 
         public double CalcularDosis(string codigo, double dosis_por_kg)
