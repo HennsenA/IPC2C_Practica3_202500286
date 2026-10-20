@@ -47,9 +47,17 @@ namespace VeterinariaApp.Models
             Console.WriteLine("No se encontro el nodo a eliminar");
         }
 
-        public string ImprimirLista()//Realizar la concatenacion de la informacion de la lista para imprimirla
+        public string[] ImprimirLista()//Realizar la concatenacion de la informacion de la lista para imprimirla
         {
-            return "";
+            string listaPacientes="";
+            var actual = Inicio;
+            while (actual!=null)
+            {
+                listaPacientes += "Codigo: " + actual.Paciente.codigo + " Nombre: "+ actual.Paciente.nombre+",";
+                actual = actual.Siguiente;
+            }
+            string[] ArrayPacientes = listaPacientes.Split(',');
+            return ArrayPacientes;
         }
 
         public NodoLista Buscar(string codigo)//Funcion de busqueda, retorna el nodo

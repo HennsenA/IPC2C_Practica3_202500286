@@ -70,9 +70,9 @@ namespace VeterinariaApp.Controllers
         [HttpGet("Lista")]//Metodo para mostrar la lista de pacientes
         public IActionResult Lista()
         {
-            string ListaPacientes = lista.ImprimirLista();
+            string[] ListaPacientes = lista.ImprimirLista();
 
-            if(ListaPacientes == null || ListaPacientes.Equals(""))
+            if(ListaPacientes == null || ListaPacientes.Length==0)
             {
                 return NotFound("La lista esta vacia");
             }
