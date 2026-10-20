@@ -95,9 +95,21 @@ namespace VeterinariaApp.Controllers
         [HttpPut("CambiarEstado")]//Cambiar el estado de sano a enfermo o viceversa
         public IActionResult CambiarEstado(string codigo)
         {
-            lista.CambiarEstado(codigo);
-
+            bool estado = lista.CambiarEstado(codigo);
+            if (!estado)
+            {
+                return NotFound("No se encontro el paciente");
+            }
             
+            return Ok();
+        }
+
+        [HttpPatch("CalcularDosis")]
+        public IActionResult CalcularDosis(string codigo, double dosis_por_kg)
+        {
+            Mascota paciente = lista.Buscar(codigo).Paciente;
+            double dosis = paciente.CalculoDosis(dosis_por_kg);
+            return Ok(dosis);
         }
     }
 }

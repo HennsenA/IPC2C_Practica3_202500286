@@ -68,7 +68,7 @@ namespace VeterinariaApp.Models
             return actual;
         }
 
-        public void CambiarEstado(string codigo)
+        public bool CambiarEstado(string codigo)
         {
             var nodo = Buscar(codigo);
             if (nodo != null)
@@ -81,10 +81,12 @@ namespace VeterinariaApp.Models
                 {
                     nodo.Paciente.CambiarEstado("sano");
                 }
+                return true;
             }
             else
             {
                 Console.WriteLine("No se encontro el nodo a actualizar");
+                return false;
             }
         }
 
