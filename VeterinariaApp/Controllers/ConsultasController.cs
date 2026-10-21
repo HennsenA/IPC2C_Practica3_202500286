@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using VeterinariaApp.Models;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace VeterinariaApp.Controllers
 {
@@ -86,15 +87,20 @@ namespace VeterinariaApp.Controllers
         }
 
         [HttpPatch("Editar")]//Actualizar informacion de un paciente
-        public IActionResult Editar(string codigo, string nombre, double peso, string sexo, int edad, string propietario)
+        public IActionResult Editar(string codigo, [FromBody] JsonPatchDocument<Mascota> patchDocument)
         {
-            bool estado = lista.EditarInfo(codigo, nombre, peso, sexo, edad, propietario);
-            if (!estado)
+            if(patchDocument == null)
+            {
+                return BadRequest("El documento de parcheo no puede ser nulo.");
+            }
+
+            var nodo = lista.Buscar(codigo);
+            if (nodo == null)
             {
                 return NotFound("No se encontro el paciente");
             }
-
-            return Ok();
+            patchDocument.ApplyTo(nodo.Paciente);
+            return Ok("Paciente actualizado correctamente");
         }
 
         [HttpPut("CambiarEstado")]//Cambiar el estado de sano a enfermo o viceversa
