@@ -12,9 +12,10 @@ namespace VeterinariaApp.Models
         public void Insertar(Mascota mascota)
         {
             string codigo = GenerarCodigo();
+            mascota.codigo = codigo;
+
             if (Inicio == null)
             {
-                mascota.codigo = codigo;
                 Inicio = new NodoLista(mascota);
             }
             else
@@ -29,22 +30,35 @@ namespace VeterinariaApp.Models
             }
         }
 
-        public void Eliminar(string codigo)//Eliminacion de un nodo por codigo
+        public bool Eliminar(string codigo)//Eliminacion de un nodo por codigo
         {
             var actual = Inicio;
 
+            if (actual == null)
+            {
+                Console.WriteLine("La lista esta vacia");
+                return false;
+            }
+
+            if (actual.Paciente.codigo.Equals(codigo))
+            {
+                Inicio = actual.Siguiente;
+                return true;
+            }
+
             while (actual.Siguiente != null)
             {
-                if(actual.Siguiente.Paciente.codigo == codigo)
+                if(actual.Siguiente.Paciente.codigo.Equals(codigo))
                 {
                     //Cambio de puntero para eliminar el nodo de la lista
                     actual.Siguiente = actual.Siguiente.Siguiente;
-                    return;
+                    return true;
                 }
                 actual = actual.Siguiente;
             }
 
             Console.WriteLine("No se encontro el nodo a eliminar");
+            return false;
         }
 
         public string[] ImprimirLista()//Realizar la concatenacion de la informacion de la lista para imprimirla

@@ -16,7 +16,7 @@ namespace VeterinariaApp.Controllers
         }
 
         [HttpPost("Registro")]//Metodo para registrar un paciente
-        public IActionResult Registro(Mascota mascota)
+        public IActionResult Registro([FromBody] Mascota mascota)
         {
             if (mascota == null)
             {
@@ -42,8 +42,13 @@ namespace VeterinariaApp.Controllers
                 return BadRequest("El código no puede ser nulo o vacío.");
             }
 
+            Console.WriteLine("Codigo a eliminar: " + codigo);
             // Lógica para eliminar la mascota de la lista
-            lista.Eliminar(codigo);
+            bool eliminado = lista.Eliminar(codigo);
+            if (!eliminado)
+            {
+                return NotFound("Mascota no encontrada.");
+            }
 
             return Ok("Mascota eliminada exitosamente.");
         }
@@ -104,7 +109,7 @@ namespace VeterinariaApp.Controllers
             return Ok();
         }
 
-        [HttpPatch("CalcularDosis")]
+        [HttpGet("CalcularDosis")]
         public IActionResult CalcularDosis(string codigo, double dosis_por_kg)
         {
             Mascota paciente = lista.Buscar(codigo).Paciente;
